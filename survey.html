@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Survey</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+        }
+
+        /* Home button styles */
+        .home-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #75613b;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .home-btn:hover {
+            background-color: #927f57;
+        }
+
+        /* Form styles */
+        form {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .submit-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Home button -->
+    <div class="header">
+        <h2>Student Survey</h2>
+        <a href="http://swe645hwonee.s3-website.us-east-2.amazonaws.com" class="home-btn">Home</a>
+    </div>
+
+    <!-- Survey Form -->
+    <form action="/submit-survey" method="POST">
+        <div class="form-section">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="streetAddress">Street Address:</label>
+            <input type="text" id="streetAddress" name="streetAddress" required>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+
+            <label for="zip">Zip Code:</label>
+            <input type="text" id="zip" name="zip" required>
+
+            <label for="telephone">Telephone Number:</label>
+            <input type="tel" id="telephone" name="telephone" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="surveyDate">Date of Survey:</label>
+            <input type="date" id="surveyDate" name="surveyDate" required>
+        </div>
+
+        <div class="form-section">
+            <label>What did you like most about the campus? (Select all that apply)</label><br>
+            <input type="checkbox" id="students" name="likedMost" value="students"> Students<br>
+            <input type="checkbox" id="location" name="likedMost" value="location"> Location<br>
+            <input type="checkbox" id="campus" name="likedMost" value="campus"> Campus<br>
+            <input type="checkbox" id="atmosphere" name="likedMost" value="atmosphere"> Atmosphere<br>
+            <input type="checkbox" id="dormRooms" name="likedMost" value="dormRooms"> Dorm Rooms<br>
+            <input type="checkbox" id="sports" name="likedMost" value="sports"> Sports
+        </div>
+
+        <div class="form-section">
+            <label>How did you become interested in the university?</label><br>
+            <input type="radio" id="friends" name="interestSource" value="friends" required> Friends<br>
+            <input type="radio" id="television" name="interestSource" value="television" required> Television<br>
+            <input type="radio" id="internet" name="interestSource" value="internet" required> Internet<br>
+            <input type="radio" id="other" name="interestSource" value="other" required> Other
+        </div>
+
+        <div class="form-section">
+            <label for="recommend">Likelihood of recommending this school to others:</label>
+            <select id="recommend" name="recommend" required>
+                <option value="very-likely">Very Likely</option>
+                <option value="likely">Likely</option>
+                <option value="unlikely">Unlikely</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label for="raffle">Raffle (Enter at least 10 comma-separated numbers between 1 and 100):</label>
+            <input type="text" id="raffle" name="raffle" required pattern="(\d{1,2},){9,}\d{1,2}">
+        </div>
+
+        <div class="form-section">
+            <label for="comments">Additional Comments:</label>
+            <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="submit-buttons">
+            <button type="submit" class="w3-button w3-teal">Submit</button>
+            <button type="reset" class="w3-button w3-dark-grey">Cancel</button>
+        </div>
+    </form>
+
+</body>
+</html>
