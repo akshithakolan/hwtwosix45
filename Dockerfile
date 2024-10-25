@@ -1,4 +1,2 @@
-FROM httpd:latest
-COPY ./survey.html /usr/local/apache2/htdocs/
-RUN chmod 777 /usr/local/apache2/htdocs/survey.html
-EXPOSE 80
+FROM tomcat:latest
+COPY surhw2.war /usr/local/tomcat/webapps/

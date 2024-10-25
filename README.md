@@ -48,6 +48,60 @@ Password:
 Login Succeeded
 ```
 On Docker hub :
+to name the tag:
+```
+docker tag ac31c03b6755 docker.io/akolanup/survey:latest
+```
+To push the image to the repository created:
+```
+docker push akolanup/survey:latest
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t akolanup/survey:latest --push .
+```
 
 
 2. Installing rancher on AWS
+2 instances were created
+go to your root folder
+ ssh -i 645hw2.pem ubuntu@44.211.219.150
+
+ instal docker on both:
+ sudo apt-get update
+ubuntu@ip-172-31-90-54:~$ sudo apt install docker.io
+
+install rancher ec1
+sudo docker run --privileged=true -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+
+The Container ID was retrieved with: 
+sudo docker ps
+
+sudo docker logs [Container ID] 2>&1 | grep "Bootstrap Password:"
+EC1:
+ubuntu@ip-172-31-90-54:~$ sudo docker ps 
+CONTAINER ID   IMAGE             COMMAND           CREATED          STATUS          PORTS                                                                      NAMES
+362c177ac54d   rancher/rancher   "entrypoint.sh"   28 seconds ago   Up 21 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   elastic_ardinghelli
+ubuntu@ip-172-31-90-54:~$ sudo docker logs 362c177ac54d  2>&1 | grep "Bootstrap Password:" TO RETRIEVE THE PASS
+
+EC2:
+ubuntu@ip-172-31-95-146:~$ sudo docker ps
+CONTAINER ID   IMAGE             COMMAND           CREATED          STATUS          PORTS                                                                      NAMES
+9974dae6b423   rancher/rancher   "entrypoint.sh"   42 seconds ago   Up 39 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   nervous_hermann
+ubuntu@ip-172-31-95-146:~$ sudo docker logs 9974dae6b423  2>&1 | grep "Bootstrap Password:"
+
+ xxxxxxxxxxx
+ do this command for sur2 in terminal
+ curl --insecure -fL https://34.238.80.0/system-agent-install.sh | sudo  sh -s - --server https://34.238.80.0 --label 'cattle.io/os=linux' --token sxjsnv859smln6kx2l8xr4whdh55kwzh7brg4xz587rj9kx949zrxt --ca-checksum 8b1fbb9766086755ef6fa51dfaee61d39ab23e6a007379f14ad8a09204da756a --etcd --controlplane --worker
+
+installled K8
+%snap install kubectl –classic
+
+
+Upon cluster activation, navigate to the cluster and access the "Deployments" tab
+within the workload section on the left-hand side.
+R. Click on "Create" and proceed to generate a new deployment object with 3
+replicas, configured as nodeport. You'll need to specify the image from Docker
+Hub for this deployment: akolanup/survey:latest
+For the port service type, select NodePort.
+Then give it a name and for the private container port, list 8080.
+Leave the listening port blank as it will auto populate that with a port from the range 30000-32767.
+Then hit create at the bottom.
