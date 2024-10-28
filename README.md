@@ -105,3 +105,10 @@ For the port service type, select NodePort.
 Then give it a name and for the private container port, list 8080.
 Leave the listening port blank as it will auto populate that with a port from the range 30000-32767.
 Then hit create at the bottom.
+another deployment with loadbal
+
+access the nodeport 8080 link with war file
+
+http://52.91.8.71:8080/login?from=%2F
+
+http://52.91.8.71:8080/ main jenkins url
