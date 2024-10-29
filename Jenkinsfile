@@ -1,51 +1,39 @@
 pipeline {
     agent any
-
     environment {
-        DOCKER_IMAGE = 'akolanup/survey'      // Docker image name
-        DOCKER_TAG = 'latest'                // Tag for the Docker image; change to '${env.BUILD_ID}' for unique tags per build
-        DOCKER_USERNAME = 'akolanup'          // Docker Hub username
-        DEPLOYMENT_YAML_PATH = 'deployment.yaml'  // Path to deployment YAML in the repository
-        registryCredential = 'dockerhub'     // Jenkins credentials ID for Docker Hub
-        SERVICE_YAML_PATH = 'service.yaml'   // Path to service YAML in the repository
+        PROJECT_ID = 'rancher'
+        CLUSTER_NAME = 'done'
+        LOCATION = 'us-east-1a'
+        DOCKERHUB_PASS = 'Docker@12'
     }
-
     stages {
-        stage('Checkout') {
+        stage("Checkout code") {
             steps {
-                git branch: 'main', url: 'https://github.com/akshithakolan/hwtwosix45.git'
+                checkout scm
             }
         }
-
-        stage('Build Docker Image') {
+        stage('BuildWAR') {
             steps {
-                script {
-                    docker.withRegistry('', registryCredential) {
-                        def image = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}", '. --no-cache')
-                        image.push()
-                        image.push('latest')
-                    }
-                }
+                echo 'Creating the Jar ...'
+                sh 'java -version'
+                sh 'rm -rf *.war'
+                sh 'jar -cvf surhw2.war -C src/main/webapps .'
+                sh 'docker login -u akolanup -p ${DOCKERHUB_PASS}'
+				sh 'docker build -t akolanup/survey .'
             }
         }
-
-        stage('Deploy to Kubernetes') {
+		stage("Pushing image to docker"){
+			steps{
+				script{
+					sh 'docker push akolanup/survey'
+				}
+			}
+		}
+    
+        stage("UpdateDeployment") {
             steps {
-                script {
-                    // Apply the Kubernetes YAML files to deploy to the cluster
-                    sh "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --kubeconfig /var/lib/jenkins/.kube/config"
-                    sh "kubectl apply -f ${SERVICE_YAML_PATH} --kubeconfig /var/lib/jenkins/.kube/config"
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment successful!'
-        }
-        failure {
-            echo 'Deployment failed!'
+					sh 'kubectl rollout restart deploy deploy'
+	    }
         }
     }
 }
