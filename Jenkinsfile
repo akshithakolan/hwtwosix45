@@ -13,30 +13,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-            git branch: 'main', url: 'https://github.com/akshithakolan/hwtwosix45.git'
+                git branch: 'main', url: 'https://github.com/akshithakolan/hwtwosix45.git'
             }
         }
 
-        stage('Pushing latest code to Docker Hub') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('',registryCredential) {
-                        def image = docker.build('akolanup/survey:latest ', '. --no-cache')
-                        docker.withRegistry('',registryCredential) {
-                            image.push()
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    // Use Jenkins credentials for secure login and push to Docker Hub
                     docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                        def image = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}", '. --no-cache')
+                        image.push()
+                        image.push('latest')
                     }
                 }
             }
