@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/akshithakolan/hwtwosix45.git'
+            git branch: 'main', url: 'https://github.com/akshithakolan/hwtwosix45.git'
             }
         }
 
