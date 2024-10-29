@@ -6,6 +6,7 @@ pipeline {
         DOCKER_TAG = 'latest'                // Tag for the Docker image; change to '${env.BUILD_ID}' for unique tags per build
         DOCKER_USERNAME = 'akolanup'          // Docker Hub username
         DEPLOYMENT_YAML_PATH = 'one.yaml'  // Path to deployment YAML in the repository
+        registryCredential = 'dockerhub'     // Jenkins credentials ID for Docker Hub
         // SERVICE_YAML_PATH = 'service.yaml'   // Path to service YAML in the repository
     }
 
