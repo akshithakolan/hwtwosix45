@@ -16,11 +16,15 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Pushing latest code to Docker Hub') {
             steps {
                 script {
-                    // Build the Docker image from the Dockerfile
-                    sh "sudo docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    docker.withRegistry('',registryCredential) {
+                        def image = docker.build('akolanup/survey:latest ', '. --no-cache')
+                        docker.withRegistry('',registryCredential) {
+                            image.push()
+                        }
+                    }
                 }
             }
         }
