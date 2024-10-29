@@ -20,8 +20,7 @@ pipeline {
                 sh 'jar -cvf surhw2.war -C srcwar .'
                 sh 'docker login -u akolanup -p ${DOCKERHUB_PASS}'
 				sh 'docker build -t akolanup/survey .'
-                sh 'docker buildx build --platform linux/amd64 -t akolanup/survey .'
-
+                
             }
         }
 		stage("Pushing image to docker"){
