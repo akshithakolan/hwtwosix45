@@ -5,9 +5,9 @@ pipeline {
         DOCKER_IMAGE = 'akolanup/survey'      // Docker image name
         DOCKER_TAG = 'latest'                // Tag for the Docker image; change to '${env.BUILD_ID}' for unique tags per build
         DOCKER_USERNAME = 'akolanup'          // Docker Hub username
-        DEPLOYMENT_YAML_PATH = 'one.yaml'  // Path to deployment YAML in the repository
+        DEPLOYMENT_YAML_PATH = 'deployment.yaml'  // Path to deployment YAML in the repository
         registryCredential = 'dockerhub'     // Jenkins credentials ID for Docker Hub
-        // SERVICE_YAML_PATH = 'service.yaml'   // Path to service YAML in the repository
+        SERVICE_YAML_PATH = 'service.yaml'   // Path to service YAML in the repository
     }
 
     stages {
@@ -34,7 +34,7 @@ pipeline {
                 script {
                     // Apply the Kubernetes YAML files to deploy to the cluster
                     sh "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --kubeconfig /var/lib/jenkins/.kube/config"
-                    // sh "kubectl apply -f ${SERVICE_YAML_PATH} --kubeconfig /var/lib/jenkins/.kube/config"
+                    sh "kubectl apply -f ${SERVICE_YAML_PATH} --kubeconfig /var/lib/jenkins/.kube/config"
                 }
             }
         }
