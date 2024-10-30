@@ -33,9 +33,14 @@ pipeline {
 		}
     
         stage("UpdateDeployment") {
+            environment {
+            KUBECONFIG_CRED = credentials('kube-config')
+            }
             steps {
-					sh 'kubectl rollout restart deploy deployy'
-	    }
+            withCredentials([file(credentialsId: 'kube-config', variable: 'KUBECONFIG')]) {
+                sh 'kubectl --kubeconfig=$KUBECONFIG rollout restart deploy deployy'
+            }
+            }
         }
     }
 }
