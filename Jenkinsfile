@@ -33,7 +33,7 @@ pipeline {
     
         stage("UpdateDeployment") {
             steps {
-					sh 'kubectl rollout restart deployy dep'
+					sh 'kubectl rollout restart deploy deployy'
 	    }
         }
     }
