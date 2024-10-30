@@ -1,7 +1,7 @@
 # Assignment 2:
 # G01448553 - Akshitha Kolanupaka
 
-
+Team: Akshitha Kolanupaka, Mourya Reddy, Ram Puttagunta
 AWS homepage link:
 https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
 
@@ -9,7 +9,7 @@ https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
 Kubernetes:
  https://54.227.136.242/k8s/clusters/c-m-bfxjrhmz/api/v1/namespaces/default/services/http:deployy:8080/proxy/surhw2/
 
-
+The following are the commands that we used for this project:
 
 1. Creating a Docker image and pushing it to DockerHub
 To build the Docker image, use the following command for apache server:
@@ -73,35 +73,41 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 2. Installing rancher on AWS
 2 instances were created
 go to your root folder
+```
  ssh -i 645hw2.pem ubuntu@44.211.219.150
+```
+instal docker on both:
+```
+sudo apt-get update
+```
 
- instal docker on both:
- sudo apt-get update
+```
 ubuntu@ip-172-31-90-54:~$ sudo apt install docker.io
+```
 
 install rancher ec1
+```
 sudo docker run --privileged=true -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
-
+```
 The Container ID was retrieved with: 
+```
 sudo docker ps
-
+```
+```
 sudo docker logs [Container ID] 2>&1 | grep "Bootstrap Password:"
+```
 EC1:
+```
 ubuntu@ip-172-31-90-54:~$ sudo docker ps 
 CONTAINER ID   IMAGE             COMMAND           CREATED          STATUS          PORTS                                                                      NAMES
 362c177ac54d   rancher/rancher   "entrypoint.sh"   28 seconds ago   Up 21 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   elastic_ardinghelli
 ubuntu@ip-172-31-90-54:~$ sudo docker logs 362c177ac54d  2>&1 | grep "Bootstrap Password:" TO RETRIEVE THE PASS
-
-EC2:
-ubuntu@ip-172-31-95-146:~$ sudo docker ps
-CONTAINER ID   IMAGE             COMMAND           CREATED          STATUS          PORTS                                                                      NAMES
-9974dae6b423   rancher/rancher   "entrypoint.sh"   42 seconds ago   Up 39 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   nervous_hermann
-ubuntu@ip-172-31-95-146:~$ sudo docker logs 9974dae6b423  2>&1 | grep "Bootstrap Password:"
-
-
- do this command for sur2 in terminal
+```
+do this command for sur2 in terminal
+```
  curl --insecure -fL https://34.238.80.0/system-agent-install.sh | sudo  sh -s - --server https://34.238.80.0 --label 'cattle.io/os=linux' --token sxjsnv859smln6kx2l8xr4whdh55kwzh7brg4xz587rj9kx949zrxt --ca-checksum 8b1fbb9766086755ef6fa51dfaee61d39ab23e6a007379f14ad8a09204da756a --etcd --controlplane --worker
- Upon cluster activation, navigate to the cluster and access the "Deployments" tab
+```
+Upon cluster activation, navigate to the cluster and access the "Deployments" tab
 within the workload section on the left-hand side.
 R. Click on "Create" and proceed to generate a new deployment object with 3
 replicas, configured as nodeport. You'll need to specify the image from Docker
@@ -115,9 +121,11 @@ Then hit create at the bottom.
 
 Set Up kubectl on Jenkins Instance: 
 Install kubectl: 
+```
 sudo apt install snapd
 sudo snap install kubectl --classic
 sudo su jenkins
+```
 Configure kubeconfig in Jenkins - Copy the Rancher kubeconfig and paste it into /home/Jenkins/.kube/config on the Jenkins EC2 instance.
 
 %snap install kubectl –classic

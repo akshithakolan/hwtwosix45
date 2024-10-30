@@ -15,7 +15,7 @@ pipeline {
         stage('BuildWAR') {
             steps {
                 echo 'Creating the Jar ...'
-                sh 'jar -cvf surhw2.war -C survey/ .'
+                sh 'jar -cvf survey.war -C survey/ .'
                 sh 'docker login -u akolanup -p ${DOCKERHUB_PASS}'
                 sh 'docker build -t akolanup/survey:latest .'
             }
