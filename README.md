@@ -1,6 +1,16 @@
 # Assignment 2:
 # G01448553 - Akshitha Kolanupaka
 
+
+AWS homepage link:
+https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
+
+
+Kubernetes:
+ https://54.227.136.242/k8s/clusters/c-m-bfxjrhmz/api/v1/namespaces/default/services/http:deployy:8080/proxy/surhw2/
+
+
+
 1. Creating a Docker image and pushing it to DockerHub
 To build the Docker image, use the following command for apache server:
 ```
@@ -88,15 +98,10 @@ CONTAINER ID   IMAGE             COMMAND           CREATED          STATUS      
 9974dae6b423   rancher/rancher   "entrypoint.sh"   42 seconds ago   Up 39 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   nervous_hermann
 ubuntu@ip-172-31-95-146:~$ sudo docker logs 9974dae6b423  2>&1 | grep "Bootstrap Password:"
 
- xxxxxxxxxxx
+
  do this command for sur2 in terminal
  curl --insecure -fL https://34.238.80.0/system-agent-install.sh | sudo  sh -s - --server https://34.238.80.0 --label 'cattle.io/os=linux' --token sxjsnv859smln6kx2l8xr4whdh55kwzh7brg4xz587rj9kx949zrxt --ca-checksum 8b1fbb9766086755ef6fa51dfaee61d39ab23e6a007379f14ad8a09204da756a --etcd --controlplane --worker
-
-installled K8
-%snap install kubectl –classic
-
-
-Upon cluster activation, navigate to the cluster and access the "Deployments" tab
+ Upon cluster activation, navigate to the cluster and access the "Deployments" tab
 within the workload section on the left-hand side.
 R. Click on "Create" and proceed to generate a new deployment object with 3
 replicas, configured as nodeport. You'll need to specify the image from Docker
@@ -105,10 +110,31 @@ For the port service type, select NodePort.
 Then give it a name and for the private container port, list 8080.
 Leave the listening port blank as it will auto populate that with a port from the range 30000-32767.
 Then hit create at the bottom.
-another deployment with loadbal
 
-access the nodeport 8080 link with war file
+3. Jenkins
 
-http://52.91.8.71:8080/login?from=%2F
+Set Up kubectl on Jenkins Instance: 
+Install kubectl: 
+sudo apt install snapd
+sudo snap install kubectl --classic
+sudo su jenkins
+Configure kubeconfig in Jenkins - Copy the Rancher kubeconfig and paste it into /home/Jenkins/.kube/config on the Jenkins EC2 instance.
 
-http://52.91.8.71:8080/ main jenkins url
+%snap install kubectl –classic
+```
+ubuntu@ip-172-31-18-184:~$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+38b86b425cb34383a29ede0d874b0bba
+ubuntu@ip-172-31-18-184:~$ mkdir /var/lib/jenkins/.kube
+mkdir: cannot create directory ‘/var/lib/jenkins/.kube’: Permission denied
+ubuntu@ip-172-31-18-184:~$ sudo mkdir /var/lib/jenkins/.kube
+ubuntu@ip-172-31-18-184:~$ touch /var/lib/jenkins/.kube/config
+touch: cannot touch '/var/lib/jenkins/.kube/config': Permission denied
+ubuntu@ip-172-31-18-184:~$ sudo touch /var/lib/jenkins/.kube/config
+ubuntu@ip-172-31-18-184:~$ sudo vim /var/lib/jenkins/.kube/config
+ubuntu@ip-172-31-18-184:~$ sudo usermod -aG docker jenkins
+ubuntu@ip-172-31-18-184:~$ sudo systemctl restart jenkins
+```
+
+
+
+
