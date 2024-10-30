@@ -1,2 +1,2 @@
 FROM tomcat:latest
-COPY survey.war /usr/local/tomcat/webapps/
+COPY surhw2.war /usr/local/tomcat/webapps/
